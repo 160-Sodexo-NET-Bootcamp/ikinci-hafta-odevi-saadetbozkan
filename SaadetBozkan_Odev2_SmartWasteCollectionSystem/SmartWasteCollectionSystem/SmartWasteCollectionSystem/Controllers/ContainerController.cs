@@ -25,17 +25,17 @@ namespace SmartWasteCollectionSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var listOfContainer = await unitOfWork.Container.GetAll();
+            var listOfContainer = unitOfWork.Container.GetAll();
             unitOfWork.Complate();
             return Ok(listOfContainer);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(long id)
+        public IActionResult GetById(long id)
         {
-            var container = await unitOfWork.Container.GetById(id);
+            var container = unitOfWork.Container.GetById(id);
             if (container is null)
             {
                 return NotFound();
@@ -45,9 +45,9 @@ namespace SmartWasteCollectionSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Container entity)
+        public IActionResult Post([FromBody] Container entity)
         {
-            var response = await unitOfWork.Container.Add(entity);
+            var response = unitOfWork.Container.Add(entity);
 
             unitOfWork.Complate();
 
@@ -55,11 +55,11 @@ namespace SmartWasteCollectionSystem.Controllers
         }
         // Update withoud vehicleId
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Container entity, long id)
+        public IActionResult Put([FromBody] Container entity, long id)
         {
             entity.Id = id;
 
-            var response = await unitOfWork.Container.Update(entity);
+            var response = unitOfWork.Container.Update(entity);
 
             unitOfWork.Complate();
 
@@ -67,9 +67,9 @@ namespace SmartWasteCollectionSystem.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
+        public IActionResult Delete(long id)
         {
-            var response = await unitOfWork.Container.Delete(id);
+            var response = unitOfWork.Container.Delete(id);
 
             unitOfWork.Complate();
 
@@ -78,17 +78,17 @@ namespace SmartWasteCollectionSystem.Controllers
 
 
         [HttpGet("/VehicleId")]
-        public async Task<IActionResult> GetByVehicleId([FromQuery] long vehicleId)
+        public IActionResult GetByVehicleId([FromQuery] long vehicleId)
         {
-            var containers = await unitOfWork.Container.GetByVehicleId(vehicleId);
+            var containers = unitOfWork.Container.GetByVehicleId(vehicleId);
             unitOfWork.Complate();
             return Ok(containers);
         }
 
         [HttpGet("/GetGroupOfContainer")]
-        public async Task<IActionResult> GetGroupOfContainer([FromQuery] long vehicleId, [FromQuery] int n)
+        public IActionResult GetGroupOfContainer([FromQuery] long vehicleId, [FromQuery] int n)
         {
-            var containerOfList = await unitOfWork.Container.GetByVehicleId(vehicleId);
+            var containerOfList = unitOfWork.Container.GetByVehicleId(vehicleId);
             List<List<Container>> resultContainerList = new List<List<Container>>();
             int index = 0;
             for (int i = 0; i< n; i++)
@@ -105,12 +105,10 @@ namespace SmartWasteCollectionSystem.Controllers
             }
             if (containerOfList.Count() % n != 0)
             {
-                List<Container> contains = new List<Container>();
                 for (int i = 0; i < containerOfList.Count() % n; i++)
                 {
-                    contains.Add(containerOfList.ElementAt<Container>(index));
+                    resultContainerList.ElementAt<List<Container>>(i).Add(containerOfList.ElementAt<Container>(index));
                 }
-                resultContainerList.Add(contains);
             }
 
             unitOfWork.Complate();

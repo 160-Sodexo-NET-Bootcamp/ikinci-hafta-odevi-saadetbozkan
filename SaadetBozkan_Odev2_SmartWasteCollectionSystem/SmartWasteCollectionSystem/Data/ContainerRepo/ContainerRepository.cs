@@ -17,12 +17,12 @@ namespace Data.ContainerRepo
         {
         }
    
-        public async Task<bool> Update(Container entity)
+        public bool Update(Container entity)
         {
             var id = entity.Id;
             DbSet<Container> dbSet2 = context.Set<Container>();
 
-            var container = await dbSet2.FindAsync(id);
+            var container = dbSet2.Find(id);
             container.Longitude = entity.Longitude == 0 ? container.Longitude : entity.Longitude;
             container.Latitude = entity.Latitude == 0 ? container.Latitude: entity.Latitude;
             container.ContainerName = entity.ContainerName == null ? container.ContainerName : entity.ContainerName;
@@ -30,11 +30,10 @@ namespace Data.ContainerRepo
             dbSet.Update(container);
             return true;
         }
-        public async Task<IEnumerable<Container>> GetByVehicleId(long id)
+        public IEnumerable<Container> GetByVehicleId(long id)
         {
             var listOfContainer = dbSet.Where(s => s.VehicleId == id);
             return listOfContainer;
         }
-
     }
 }

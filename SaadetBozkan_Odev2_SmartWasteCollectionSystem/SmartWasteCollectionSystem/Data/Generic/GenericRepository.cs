@@ -22,35 +22,35 @@ namespace Data.Generic
             this.dbSet = context.Set<T>();
         }
 
-        public Task<bool> Add(T entity)
+        public bool Add(T entity)
         {
             dbSet.Add(entity);
-            return Task.FromResult(true);
+            return true;
         }
 
-        public async Task<bool> Delete(long id)
+        public bool Delete(long id)
         {
-            var model = await dbSet.FindAsync(id);
+            var model = dbSet.Find(id);
             dbSet.Remove(model);
             return true;
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            var model = await dbSet.ToListAsync();
+            var model = dbSet.ToList();
             return model;
         }
 
-        public virtual async Task<T> GetById(long id)
+        public T GetById(long id)
         {
-            var model = await dbSet.FindAsync(id);
+            var model = dbSet.Find(id);
             return model;
         }
 
-        public Task<bool> Update(T entity)
+        public bool Update(T entity)
         {
             dbSet.Update(entity);
-            return Task.FromResult(true);
+            return true;
         }
     }
 }

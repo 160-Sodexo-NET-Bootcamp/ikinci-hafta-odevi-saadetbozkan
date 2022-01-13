@@ -24,17 +24,17 @@ namespace SmartWasteCollectionSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var listOfVehicle = await unitOfWork.Vehicle.GetAll();
+            var listOfVehicle = unitOfWork.Vehicle.GetAll();
             unitOfWork.Complate();
             return Ok(listOfVehicle);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(long id)
+        public IActionResult GetById(long id)
         {
-            var vehicle = await unitOfWork.Vehicle.GetById(id);
+            var vehicle = unitOfWork.Vehicle.GetById(id);
             if (vehicle is null)
             {
                 return NotFound();
@@ -44,9 +44,9 @@ namespace SmartWasteCollectionSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Vehicle entity)
+        public IActionResult Post([FromBody] Vehicle entity)
         {
-            var response = await unitOfWork.Vehicle.Add(entity);
+            var response = unitOfWork.Vehicle.Add(entity);
 
             unitOfWork.Complate();
 
@@ -54,10 +54,10 @@ namespace SmartWasteCollectionSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Vehicle entity, long id)
+        public IActionResult Put([FromBody] Vehicle entity, long id)
         {
             entity.Id = id;
-            var response = await unitOfWork.Vehicle.Update(entity);
+            var response = unitOfWork.Vehicle.Update(entity);
 
             unitOfWork.Complate();
 
@@ -65,9 +65,9 @@ namespace SmartWasteCollectionSystem.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
+        public IActionResult Delete(long id)
         {
-            var response = await unitOfWork.Vehicle.Delete(id);
+            var response = unitOfWork.Vehicle.Delete(id);
 
             unitOfWork.Complate();
 

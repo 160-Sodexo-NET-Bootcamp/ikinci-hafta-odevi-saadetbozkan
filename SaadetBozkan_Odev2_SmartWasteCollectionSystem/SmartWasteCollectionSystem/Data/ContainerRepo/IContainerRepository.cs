@@ -10,7 +10,7 @@ namespace Data.ContainerRepo
 {
     public interface IContainerRepository : IGenericRepository<Container>
     {
-        Task<IEnumerable<Container>> GetByVehicleId(long id);
+        IEnumerable<Container> GetByVehicleId(long id);
     }
    
     

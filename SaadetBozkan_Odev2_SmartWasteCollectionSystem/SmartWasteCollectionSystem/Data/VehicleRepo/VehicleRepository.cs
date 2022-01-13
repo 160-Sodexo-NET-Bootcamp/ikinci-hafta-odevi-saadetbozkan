@@ -14,9 +14,9 @@ namespace Data.ContainerRepo
         public VehicleRepository(CollectionSystemDbContext context, ILogger logger) : base(context, logger)
         {
         }
-        public async Task<bool> Delete(long id)
+        public bool Delete(long id)
         {
-            var vehicle = await dbSet.FindAsync(id);
+            var vehicle = dbSet.Find(id);
             //delete vehicle with its containers
             DbSet<Container> dbSet2 = context.Set<Container>();
             var listOfContainer = dbSet2.Where(s => s.VehicleId == vehicle.Id);
